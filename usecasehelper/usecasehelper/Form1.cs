@@ -12,7 +12,7 @@ namespace usecasehelper
 {
     public partial class Form1 : Form
     {
-        List<UseCase> useCases = new List<UseCase>();
+        public List<UseCase> useCases = new List<UseCase>();
         Pen selectedpen = new Pen(Color.Red, 4);
         Pen defaultpen = new Pen(Color.Black, 2);
 
@@ -24,12 +24,39 @@ namespace usecasehelper
 
         private void pbDraw_MouseDown(object sender, MouseEventArgs e)
         {
+            
             int mouseX = e.Location.X;
             int mouseY = e.Location.Y;
+            bool selectionfound = false;
 
             if (rbUseCase.Checked)
             {
-                useCases.Add(new UseCase("Click to insert Text", mouseX, mouseY));
+                int index = 0;
+                bool ucupdate = false;
+                UseCaseForm form = new UseCaseForm();
+
+                foreach (UseCase u in useCases)
+                {
+                    
+                    if(u.rect.Contains(e.Location))
+                    {
+                        if (u.selected)
+                        {
+                            form = new UseCaseForm(u, index);
+                            form.ShowDialog();
+                            ucupdate = true;
+                            
+
+                        }
+                        u.selected = true;
+                        selectionfound = true;
+                    }
+                    else u.selected = false;
+                    index++;
+                }
+
+                if(ucupdate) useCases[form.index] = form.thisusecase;
+                if (!selectionfound) useCases.Add(new UseCase(this.CreateGraphics(),"Click to insert Text", mouseX, mouseY));
                 pbDraw.Refresh();
             }
 
@@ -40,13 +67,46 @@ namespace usecasehelper
             Graphics g = e.Graphics;
             foreach (UseCase u in useCases)
             {
-                float textwidth = g.MeasureString(u.text, new Font("Comic Sans MS", 14)).Width;
-                float textheight = g.MeasureString(u.text, new Font("Comic Sans MS", 14)).Height;
+                Brush toBrush = new SolidBrush(Color.Black);
+                if (u.selected) toBrush = new SolidBrush(Color.Red);
 
-                g.DrawString(u.text, new Font("Comic Sans MS", 14), new SolidBrush(Color.Black), u.x, u.y);
+                Pen toPen;
+                if (!u.selected) toPen = defaultpen;
+                else toPen = selectedpen;
 
+                g.DrawString(u.text, new Font("Comic Sans MS", 14), toBrush, u.x, u.y);
+                g.DrawEllipse(toPen, u.rect);
+            }
+        }
 
-                g.DrawEllipse(defaultpen, u.x-10, u.y-10, textwidth+20, textheight+20);
+        private void btnClear_Click(object sender, EventArgs e)
+        {
+            useCases.Clear();
+            pbDraw.Refresh();
+        }
+
+        private void btnRemove_Click(object sender, EventArgs e)
+        {
+            removeSelected();
+        }
+
+        private void removeSelected()
+        {
+            int toRemove = -1;
+            int index = 0;
+            foreach (UseCase u in useCases)
+            {
+                if (u.selected)
+                {
+                    toRemove = index;
+                }
+                index++;
+            }
+            if (toRemove != -1)
+            {
+                useCases.RemoveAt(toRemove);
+                removeSelected();
+                pbDraw.Refresh();
             }
         }
     }
