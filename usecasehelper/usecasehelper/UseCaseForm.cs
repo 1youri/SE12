@@ -100,16 +100,16 @@ namespace usecasehelper
 
         private bool Checkname()
         {
-            bool duplicate = false;
+            int duplicates = 0;
             foreach (UseCase uc in usecases)
             {
                 if(tbNaam.Text == uc.text)
                 {
                     lblInUse.Visible = true;
-                    duplicate = true;
+                    duplicates++;
                 }
             }
-            return duplicate;
+            return duplicates > 0;
         }
 
         private void UseCaseForm_FormClosing(object sender, FormClosingEventArgs e)

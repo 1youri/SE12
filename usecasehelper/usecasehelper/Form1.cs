@@ -82,7 +82,10 @@ namespace usecasehelper
                 if (!selectionfound)
                 {
                     useCases.Add(new UseCase(ucindex, this.CreateGraphics(), "Click to insert Text", mouseX, mouseY));
-                    
+                    form = new UseCaseForm(useCases[ucindex], ucindex, this.CreateGraphics(), actors, useCases, useCases[ucindex].actors);
+                    form.ShowDialog();
+                    useCases[ucindex] = form.thisusecase;
+                    UpdateLines();
 
                     ucindex++;
                 }
@@ -115,6 +118,13 @@ namespace usecasehelper
                 if(!selectionfound)
                 {
                     actors.Add(new Actor(acindex, "___", mouseX, mouseY));
+                    form = new ActorForm(acindex, "actor name");
+                    form.ShowDialog();
+                    actors[acindex].name = form.ActorName;
+                    UpdateLines();
+
+
+
                     acindex++;
                 }
                 pbDraw.Refresh();
@@ -189,6 +199,7 @@ namespace usecasehelper
         {
             useCases.Clear();
             actors.Clear();
+            UpdateLines();
             pbDraw.Refresh();
         }
 
@@ -257,7 +268,7 @@ namespace usecasehelper
             {
                 a.selected = false;
             }
-            UpdateLines();
+            
 
             pbDraw.Refresh();
         }
