@@ -28,10 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.label1 = new System.Windows.Forms.Label();
+            this.lblNaam = new System.Windows.Forms.Label();
             this.tbNaam = new System.Windows.Forms.TextBox();
             this.tbSamenvatting = new System.Windows.Forms.TextBox();
-            this.tbActoren = new System.Windows.Forms.TextBox();
             this.tbAanamen = new System.Windows.Forms.TextBox();
             this.tbBeschrijving = new System.Windows.Forms.TextBox();
             this.tbUitzondering = new System.Windows.Forms.TextBox();
@@ -43,16 +42,18 @@
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.btnSave = new System.Windows.Forms.Button();
+            this.clbActors = new System.Windows.Forms.CheckedListBox();
+            this.lblInUse = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
-            // label1
+            // lblNaam
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 12);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(49, 17);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Naam:";
+            this.lblNaam.AutoSize = true;
+            this.lblNaam.Location = new System.Drawing.Point(12, 9);
+            this.lblNaam.Name = "lblNaam";
+            this.lblNaam.Size = new System.Drawing.Size(49, 17);
+            this.lblNaam.TabIndex = 0;
+            this.lblNaam.Text = "Naam:";
             // 
             // tbNaam
             // 
@@ -68,23 +69,16 @@
             this.tbSamenvatting.Size = new System.Drawing.Size(349, 22);
             this.tbSamenvatting.TabIndex = 2;
             // 
-            // tbActoren
-            // 
-            this.tbActoren.Location = new System.Drawing.Point(142, 68);
-            this.tbActoren.Name = "tbActoren";
-            this.tbActoren.Size = new System.Drawing.Size(349, 22);
-            this.tbActoren.TabIndex = 3;
-            // 
             // tbAanamen
             // 
-            this.tbAanamen.Location = new System.Drawing.Point(142, 96);
+            this.tbAanamen.Location = new System.Drawing.Point(142, 187);
             this.tbAanamen.Name = "tbAanamen";
             this.tbAanamen.Size = new System.Drawing.Size(349, 22);
             this.tbAanamen.TabIndex = 4;
             // 
             // tbBeschrijving
             // 
-            this.tbBeschrijving.Location = new System.Drawing.Point(142, 124);
+            this.tbBeschrijving.Location = new System.Drawing.Point(142, 215);
             this.tbBeschrijving.Multiline = true;
             this.tbBeschrijving.Name = "tbBeschrijving";
             this.tbBeschrijving.Size = new System.Drawing.Size(349, 155);
@@ -92,7 +86,7 @@
             // 
             // tbUitzondering
             // 
-            this.tbUitzondering.Location = new System.Drawing.Point(142, 285);
+            this.tbUitzondering.Location = new System.Drawing.Point(142, 376);
             this.tbUitzondering.Multiline = true;
             this.tbUitzondering.Name = "tbUitzondering";
             this.tbUitzondering.Size = new System.Drawing.Size(349, 155);
@@ -100,7 +94,7 @@
             // 
             // tbResultaat
             // 
-            this.tbResultaat.Location = new System.Drawing.Point(142, 446);
+            this.tbResultaat.Location = new System.Drawing.Point(142, 537);
             this.tbResultaat.Name = "tbResultaat";
             this.tbResultaat.Size = new System.Drawing.Size(349, 22);
             this.tbResultaat.TabIndex = 7;
@@ -126,7 +120,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(12, 96);
+            this.label4.Location = new System.Drawing.Point(12, 187);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(72, 17);
             this.label4.TabIndex = 10;
@@ -135,7 +129,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(12, 124);
+            this.label5.Location = new System.Drawing.Point(12, 215);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(88, 17);
             this.label5.TabIndex = 11;
@@ -144,7 +138,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(12, 285);
+            this.label6.Location = new System.Drawing.Point(12, 376);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(92, 17);
             this.label6.TabIndex = 12;
@@ -153,7 +147,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(12, 446);
+            this.label7.Location = new System.Drawing.Point(12, 537);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(72, 17);
             this.label7.TabIndex = 13;
@@ -161,7 +155,7 @@
             // 
             // btnSave
             // 
-            this.btnSave.Location = new System.Drawing.Point(415, 474);
+            this.btnSave.Location = new System.Drawing.Point(415, 565);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(75, 23);
             this.btnSave.TabIndex = 14;
@@ -169,11 +163,34 @@
             this.btnSave.UseVisualStyleBackColor = true;
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
-            // UserCaseForm
+            // clbActors
+            // 
+            this.clbActors.FormattingEnabled = true;
+            this.clbActors.Location = new System.Drawing.Point(142, 68);
+            this.clbActors.Name = "clbActors";
+            this.clbActors.Size = new System.Drawing.Size(349, 106);
+            this.clbActors.TabIndex = 15;
+            // 
+            // lblInUse
+            // 
+            this.lblInUse.AutoSize = true;
+            this.lblInUse.BackColor = System.Drawing.SystemColors.Window;
+            this.lblInUse.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblInUse.ForeColor = System.Drawing.Color.Red;
+            this.lblInUse.Location = new System.Drawing.Point(338, 15);
+            this.lblInUse.Name = "lblInUse";
+            this.lblInUse.Size = new System.Drawing.Size(141, 17);
+            this.lblInUse.TabIndex = 16;
+            this.lblInUse.Text = "NAAM ONMOGELIJK";
+            this.lblInUse.Visible = false;
+            // 
+            // UseCaseForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(503, 504);
+            this.ClientSize = new System.Drawing.Size(503, 596);
+            this.Controls.Add(this.lblInUse);
+            this.Controls.Add(this.clbActors);
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.label6);
@@ -185,13 +202,13 @@
             this.Controls.Add(this.tbUitzondering);
             this.Controls.Add(this.tbBeschrijving);
             this.Controls.Add(this.tbAanamen);
-            this.Controls.Add(this.tbActoren);
             this.Controls.Add(this.tbSamenvatting);
             this.Controls.Add(this.tbNaam);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.lblNaam);
             this.MinimumSize = new System.Drawing.Size(521, 527);
-            this.Name = "UserCaseForm";
+            this.Name = "UseCaseForm";
             this.Text = "UserCaseForm";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.UseCaseForm_FormClosing);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -199,10 +216,9 @@
 
         #endregion
 
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label lblNaam;
         private System.Windows.Forms.TextBox tbNaam;
         private System.Windows.Forms.TextBox tbSamenvatting;
-        private System.Windows.Forms.TextBox tbActoren;
         private System.Windows.Forms.TextBox tbAanamen;
         private System.Windows.Forms.TextBox tbBeschrijving;
         private System.Windows.Forms.TextBox tbUitzondering;
@@ -214,5 +230,7 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Button btnSave;
+        private System.Windows.Forms.CheckedListBox clbActors;
+        private System.Windows.Forms.Label lblInUse;
     }
 }

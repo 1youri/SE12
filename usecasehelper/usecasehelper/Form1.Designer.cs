@@ -65,6 +65,7 @@
             this.rbLine.TabStop = true;
             this.rbLine.Text = "Line";
             this.rbLine.UseVisualStyleBackColor = true;
+            this.rbLine.CheckedChanged += new System.EventHandler(this.rbLine_CheckedChanged);
             // 
             // rbUseCase
             // 
@@ -76,6 +77,7 @@
             this.rbUseCase.TabStop = true;
             this.rbUseCase.Text = "UseCase";
             this.rbUseCase.UseVisualStyleBackColor = true;
+            this.rbUseCase.CheckedChanged += new System.EventHandler(this.rbUseCase_CheckedChanged);
             // 
             // rbActor
             // 
@@ -87,6 +89,7 @@
             this.rbActor.TabStop = true;
             this.rbActor.Text = "Actor";
             this.rbActor.UseVisualStyleBackColor = true;
+            this.rbActor.CheckedChanged += new System.EventHandler(this.rbActor_CheckedChanged);
             // 
             // groupBox2
             // 
