@@ -23,12 +23,12 @@ namespace usecasehelper
             this.y = y;
 
             selected = false;
-            this.rect = new Rectangle(x - 30, y - 50, 60, 110);
+            this.rect = new Rectangle(x - 30, y - 50, 60, 150);
         }
 
         public static Rectangle DrawActor(Graphics g,Pen pen, Brush brush, int x, int y,string name)
         {
-            Rectangle rect = new Rectangle(x - 30, y - 50, 60, 110);
+            Rectangle rect = new Rectangle(x - 30, y - 50, 60, 150);
             g.FillRectangle(Brushes.White, rect);
             g.DrawEllipse(pen, x-15 , y - 50, 30, 30); //head
             g.DrawLine(pen, x, y - 20, x, y + 21); //torso

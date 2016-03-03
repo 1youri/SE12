@@ -67,14 +67,13 @@ namespace usecasehelper
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-            if(!saved) SaveChanges();
+            this.Close();
         }
 
-        private void SaveChanges()
+        private bool Save()
         {
-            if(!Checkname())
+            if(LegitName())
             {
-                //UseCase b = new UseCase(tbNaam.Text,oldUseCase.x,oldUseCase.y,oldUseCase.textwidth, oldUseCase.textheight, oldUseCase.rect);
                 UseCase tempuc = new UseCase(g, tbNaam.Text, Convert.ToInt32(oldUseCase.cx), Convert.ToInt32(oldUseCase.cy));
                 tempuc.text = tbNaam.Text;
                 tempuc.samenvatting = tbSamenvatting.Text;
@@ -89,44 +88,45 @@ namespace usecasehelper
                 }
 
                 saved = true;
+                
 
 
                 thisusecase = tempuc;
-                this.Close();
+                return true;
             }
-            
+            return false;
         }
 
-        private bool Checkname()
+        private bool LegitName()
         {
             List<UseCase> testlist = new List<UseCase>(usecases);
-            //testlist = this.usecases;
-
-            testlist.Add(new UseCase(this.CreateGraphics(), tbNaam.Text, 0, 0));
+            testlist[testlist.FindIndex(x => x == this.oldUseCase)].text = tbNaam.Text;
 
             int duplicates = 0;
-            if (tbNaam.Text == "Click to insert Text") duplicates--;
             foreach (UseCase uc in testlist)
             {
                 if(tbNaam.Text == uc.text)
                 {
-                    lblInUse.Visible = true;
                     duplicates++;
                 }
             }
-            return duplicates > 1;
+            return duplicates <= 1;
         }
 
         private void UseCaseForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             if(!saved)
             {
-                if (Checkname())
+                if (LegitName())
+                {
+                    Save();
+                }
+                else
                 {
                     e.Cancel = true;
                     lblInUse.Visible = true;
                 }
-                else SaveChanges();
+                    
             }
                
         }

@@ -16,12 +16,16 @@ namespace usecasehelper
         public Actor actor { get; set; }
 
         private List<Actor> actors;
+        private bool saved;
 
         public ActorForm(Actor a, List<Actor> actors)
         {
             InitializeComponent();
-            tbActornaam.Text = a.name;
+            
             this.actor = a;
+            this.actors = actors;
+
+            tbActornaam.Text = a.name;
             tbActornaam.SelectAll();
 
 
@@ -29,38 +33,52 @@ namespace usecasehelper
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-            this.ActorName = tbActornaam.Text;
             this.Close();
         }
 
         private void ActorForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            this.ActorName = tbActornaam.Text;
+            if(!saved)
+            {
+                if (Save())
+                {
+                    this.Close();
+                }
+                else
+                {
+                    e.Cancel = true;
+                    lblInUse.Visible = true;
+                }
+            }
+            
         }
 
-        private void Save()
+        private bool Save()
         {
-            if(!CheckName())
+            if(LegitName())
             {
                 this.ActorName = tbActornaam.Text;
-                this.Close();
+                saved = true;
+                return true;
             }
             else
             {
-                
+                return false;
             }
         }
 
-        private bool CheckName()
+        private bool LegitName()
         {
             int duplicates = 0;
             List<Actor> testlist = new List<Actor>(actors);
-            testlist.Add(new Actor(tbActornaam.Text, 0, 0));
+            testlist[testlist.FindIndex(x => x == this.actor)].name = tbActornaam.Text;
+
+            //testlist.Add(new Actor(tbActornaam.Text, 0, 0));
             foreach (Actor a in testlist)
             {
                 if (a.name == tbActornaam.Text) duplicates++;
             }
-            return duplicates < 1;
+            return duplicates <= 1;
         }
     }
 }
