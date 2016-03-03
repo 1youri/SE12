@@ -31,6 +31,7 @@
             this.tbActornaam = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.btnSave = new System.Windows.Forms.Button();
+            this.lblInUse = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // tbActornaam
@@ -59,11 +60,25 @@
             this.btnSave.UseVisualStyleBackColor = true;
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
+            // lblInUse
+            // 
+            this.lblInUse.AutoSize = true;
+            this.lblInUse.BackColor = System.Drawing.SystemColors.Control;
+            this.lblInUse.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblInUse.ForeColor = System.Drawing.Color.Red;
+            this.lblInUse.Location = new System.Drawing.Point(13, 60);
+            this.lblInUse.Name = "lblInUse";
+            this.lblInUse.Size = new System.Drawing.Size(141, 17);
+            this.lblInUse.TabIndex = 17;
+            this.lblInUse.Text = "NAAM ONMOGELIJK";
+            this.lblInUse.Visible = false;
+            // 
             // ActorForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(282, 99);
+            this.Controls.Add(this.lblInUse);
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.tbActornaam);
@@ -80,5 +95,6 @@
         private System.Windows.Forms.TextBox tbActornaam;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button btnSave;
+        private System.Windows.Forms.Label lblInUse;
     }
 }

@@ -13,14 +13,18 @@ namespace usecasehelper
     public partial class ActorForm : Form
     {
         public string ActorName { get; set; }
-        public int index;
+        public Actor actor { get; set; }
 
-        public ActorForm(int index, string name)
+        private List<Actor> actors;
+
+        public ActorForm(Actor a, List<Actor> actors)
         {
             InitializeComponent();
-            this.index = index;
-            tbActornaam.Text = name;
+            tbActornaam.Text = a.name;
+            this.actor = a;
             tbActornaam.SelectAll();
+
+
         }
 
         private void btnSave_Click(object sender, EventArgs e)
@@ -32,6 +36,31 @@ namespace usecasehelper
         private void ActorForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             this.ActorName = tbActornaam.Text;
+        }
+
+        private void Save()
+        {
+            if(!CheckName())
+            {
+                this.ActorName = tbActornaam.Text;
+                this.Close();
+            }
+            else
+            {
+                
+            }
+        }
+
+        private bool CheckName()
+        {
+            int duplicates = 0;
+            List<Actor> testlist = new List<Actor>(actors);
+            testlist.Add(new Actor(tbActornaam.Text, 0, 0));
+            foreach (Actor a in testlist)
+            {
+                if (a.name == tbActornaam.Text) duplicates++;
+            }
+            return duplicates < 1;
         }
     }
 }

@@ -18,9 +18,7 @@ namespace usecasehelper
 
         Pen selectedpen;
         Pen defaultpen;
-        Brush bgbrush;
-        private int ucindex;
-        private int acindex;
+        Brush bgbrush;  
 
 
         public Form1()
@@ -34,9 +32,6 @@ namespace usecasehelper
             selectedpen = new Pen(Color.Red, 4);
             defaultpen = new Pen(Color.Black, 2);
             bgbrush = new SolidBrush(Color.White);
-
-            ucindex = 0;
-            acindex = 0;
 
     }
 
@@ -60,10 +55,10 @@ namespace usecasehelper
                     {
                         if (u.selected)
                         {
-                            form = new UseCaseForm(u, index, this.CreateGraphics(),actors,useCases,u.actors);
+                            form = new UseCaseForm(u, this.CreateGraphics(),actors,useCases);
                             form.ShowDialog();
                             ucupdate = true;
-                            
+
 
                         }
                         u.selected = true;
@@ -75,19 +70,19 @@ namespace usecasehelper
 
                 if(ucupdate)
                 {
-                    useCases[form.index] = form.thisusecase;
+                    useCases[useCases.FindIndex(x => x == form.oldUseCase)] = form.thisusecase;
                     UpdateLines();
                 }
                 
                 if (!selectionfound)
                 {
-                    useCases.Add(new UseCase(ucindex, this.CreateGraphics(), "Click to insert Text", mouseX, mouseY));
-                    form = new UseCaseForm(useCases[ucindex], ucindex, this.CreateGraphics(), actors, useCases, useCases[ucindex].actors);
-                    form.ShowDialog();
-                    useCases[ucindex] = form.thisusecase;
-                    UpdateLines();
+                    useCases.Add(new UseCase(this.CreateGraphics(), "Click to insert Text", mouseX, mouseY));
 
-                    ucindex++;
+
+                    form = new UseCaseForm(useCases[useCases.Count - 1], this.CreateGraphics(), actors, useCases);
+                    form.ShowDialog();
+                    useCases[useCases.Count - 1] = form.thisusecase;
+                    UpdateLines();
                 }
                 pbDraw.Refresh();
             }
@@ -95,7 +90,7 @@ namespace usecasehelper
             {
                 int index = 0;
                 bool acupdate = false;
-                ActorForm form = new ActorForm(0, "___");
+                ActorForm form = new ActorForm(new Actor("__",0,0),actors);
 
                 foreach (Actor a in actors)
                 {
@@ -103,7 +98,7 @@ namespace usecasehelper
                     {
                         if (a.selected)
                         {
-                            form = new ActorForm(index,a.name);
+                            form = new ActorForm(a,actors);
                             form.ShowDialog();
                             acupdate = true;
                         }
@@ -114,18 +109,14 @@ namespace usecasehelper
                     index++;
                     
                 }
-                if (acupdate) actors[form.index].name = form.ActorName;
+                if (acupdate) actors[actors.FindIndex(x => x == form.actor)].name = form.ActorName;
                 if(!selectionfound)
                 {
-                    actors.Add(new Actor(acindex, "___", mouseX, mouseY));
-                    form = new ActorForm(acindex, "actor name");
+                    actors.Add(new Actor("actor name", mouseX, mouseY));
+                    form = new ActorForm(actors[actors.Count-1], actors);
                     form.ShowDialog();
-                    actors[acindex].name = form.ActorName;
+                    actors[actors.Count - 1].name = form.ActorName;
                     UpdateLines();
-
-
-
-                    acindex++;
                 }
                 pbDraw.Refresh();
             }
@@ -167,6 +158,16 @@ namespace usecasehelper
                 g.DrawLine(defaultpen, l.x1, l.y1, l.x2, l.y2);
             }
 
+            foreach (Actor a in actors)
+            {
+                if (a.selected) toBrush = new SolidBrush(Color.Red);
+                else toBrush = new SolidBrush(Color.Black);
+                if (a.selected) toPen = selectedpen;
+                else toPen = defaultpen;
+
+                Actor.DrawActor(g, toPen, toBrush, a.x, a.y, a.name);
+            }
+
             foreach (UseCase u in useCases)
             {
                 if (u.selected) toBrush = new SolidBrush(Color.Red);
@@ -181,17 +182,6 @@ namespace usecasehelper
                 
                 
             }
-
-            foreach (Actor a in actors)
-            {
-                if (a.selected) toBrush = new SolidBrush(Color.Red);
-                else toBrush = new SolidBrush(Color.Black);
-                if (a.selected) toPen = selectedpen;
-                else toPen = defaultpen;
-
-                Actor.DrawActor(g,toPen, toBrush, a.x, a.y,a.name);
-            }
-
             
         }
 
@@ -206,26 +196,50 @@ namespace usecasehelper
         private void btnRemove_Click(object sender, EventArgs e)
         {
             removeSelected();
+            UpdateLines();
+            pbDraw.Refresh();
         }
 
         private void removeSelected()
         {
             int toRemove = -1;
             int index = 0;
-            foreach (UseCase u in useCases)
+            if(rbUseCase.Checked)
             {
-                if (u.selected)
+                foreach (UseCase u in useCases)
                 {
-                    toRemove = index;
+                    if (u.selected)
+                    {
+                        toRemove = index;
+                    }
+                    index++;
                 }
-                index++;
+                if (toRemove != -1)
+                {
+                    useCases.RemoveAt(toRemove);
+                    removeSelected();
+                    pbDraw.Refresh();
+                }
             }
-            if (toRemove != -1)
+
+            if(rbActor.Checked)
             {
-                useCases.RemoveAt(toRemove);
-                removeSelected();
-                pbDraw.Refresh();
+                foreach (Actor a in actors)
+                {
+                    if (a.selected)
+                    {
+                        toRemove = index;
+                    }
+                    index++;
+                }
+                if (toRemove != -1)
+                {
+                    actors.RemoveAt(toRemove);
+                    removeSelected();
+                    pbDraw.Refresh();
+                }
             }
+            
         }
 
         private void UpdateLines()

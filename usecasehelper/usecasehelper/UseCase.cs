@@ -10,8 +10,6 @@ namespace usecasehelper
     public class UseCase
     {
         public List<String> actors;
-
-        public int index;
         public string text;
         public int x;
         public int y;
@@ -30,12 +28,12 @@ namespace usecasehelper
         public float cx;
         public float cy;
 
-        public UseCase(int index, Graphics g, string t, int mx, int my)
+        public UseCase(Graphics g, string t, int mx, int my)
         {
+            actors = new List<String>();
             this.cx = mx;
             this.cy = my;
             this.text = t;
-            this.index = index;
 
             this.textwidth = g.MeasureString(text, new Font("Comic Sans MS", 14)).Width;
             this.textheight = g.MeasureString(text, new Font("Comic Sans MS", 14)).Height;

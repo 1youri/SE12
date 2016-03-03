@@ -16,7 +16,7 @@ namespace usecasehelper
         public bool selected;
         public Rectangle rect;
 
-        public Actor(int index, string naam, int x, int y)
+        public Actor(string naam, int x, int y)
         {
             this.name = naam;
             this.x = x;

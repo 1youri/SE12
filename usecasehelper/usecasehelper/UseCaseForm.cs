@@ -13,12 +13,11 @@ namespace usecasehelper
     public partial class UseCaseForm : Form
     {
         public UseCase thisusecase { get; set; }
-        public int index { get; set; }
 
 
-        private UseCase oldUseCase;
+        public UseCase oldUseCase;
         private Graphics g;
-        private List<Actor> actors;
+        private int startcount;
         private List<UseCase> usecases;
         private bool saved;
 
@@ -30,7 +29,7 @@ namespace usecasehelper
 
         }
 
-        public UseCaseForm(UseCase usecase, int index, Graphics g, List<Actor> actors,List<UseCase> usecases, List<String> selectedactors)
+        public UseCaseForm(UseCase usecase, Graphics g, List<Actor> actors,List<UseCase> usecases)
         {
             InitializeComponent();
             oldUseCase = usecase;
@@ -39,14 +38,15 @@ namespace usecasehelper
             tbBeschrijving.Text = usecase.beschrijving;
             tbUitzondering.Text = usecase.uitzonderingen;
             tbResultaat.Text = usecase.resultaat;
-            this.actors = actors;
+            List<String> actorlist = usecases[usecases.FindIndex(x => x == usecase)].actors;
             this.usecases = usecases;
+
             
             foreach (Actor a in actors)
             {
                 try
                 {
-                    if (selectedactors.Contains(a.name)) clbActors.Items.Add(a.name, true);
+                    if (actorlist.Contains(a.name)) clbActors.Items.Add(a.name, true);
                     else clbActors.Items.Add(a.name, false);
                 }
                 catch (NullReferenceException)
@@ -61,7 +61,6 @@ namespace usecasehelper
 
 
             this.g = g;
-            this.index = index;
 
             tbNaam.SelectAll();
         }
@@ -76,7 +75,7 @@ namespace usecasehelper
             if(!Checkname())
             {
                 //UseCase b = new UseCase(tbNaam.Text,oldUseCase.x,oldUseCase.y,oldUseCase.textwidth, oldUseCase.textheight, oldUseCase.rect);
-                UseCase tempuc = new UseCase(index, g, tbNaam.Text, Convert.ToInt32(oldUseCase.cx), Convert.ToInt32(oldUseCase.cy));
+                UseCase tempuc = new UseCase(g, tbNaam.Text, Convert.ToInt32(oldUseCase.cx), Convert.ToInt32(oldUseCase.cy));
                 tempuc.text = tbNaam.Text;
                 tempuc.samenvatting = tbSamenvatting.Text;
                 tempuc.beschrijving = tbBeschrijving.Text;
@@ -100,8 +99,14 @@ namespace usecasehelper
 
         private bool Checkname()
         {
+            List<UseCase> testlist = new List<UseCase>(usecases);
+            //testlist = this.usecases;
+
+            testlist.Add(new UseCase(this.CreateGraphics(), tbNaam.Text, 0, 0));
+
             int duplicates = 0;
-            foreach (UseCase uc in usecases)
+            if (tbNaam.Text == "Click to insert Text") duplicates--;
+            foreach (UseCase uc in testlist)
             {
                 if(tbNaam.Text == uc.text)
                 {
@@ -109,7 +114,7 @@ namespace usecasehelper
                     duplicates++;
                 }
             }
-            return duplicates > 0;
+            return duplicates > 1;
         }
 
         private void UseCaseForm_FormClosing(object sender, FormClosingEventArgs e)
